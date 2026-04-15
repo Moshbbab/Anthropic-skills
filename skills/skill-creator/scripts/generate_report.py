@@ -306,6 +306,7 @@ def main():
     parser.add_argument("input", help="Path to JSON output from run_loop.py (or - for stdin)")
     parser.add_argument("-o", "--output", default=None, help="Output HTML file (default: stdout)")
     parser.add_argument("--skill-name", default="", help="Skill name to include in the report title")
+    parser.add_argument("--auto-refresh", action="store_true", help="Add a 5-second meta refresh tag (useful for watching a live results file)")
     args = parser.parse_args()
 
     if args.input == "-":
@@ -313,7 +314,7 @@ def main():
     else:
         data = json.loads(Path(args.input).read_text())
 
-    html_output = generate_html(data, skill_name=args.skill_name)
+    html_output = generate_html(data, auto_refresh=args.auto_refresh, skill_name=args.skill_name)
 
     if args.output:
         Path(args.output).write_text(html_output)
